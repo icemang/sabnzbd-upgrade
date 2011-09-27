@@ -8,9 +8,8 @@ you  have to cook a script by yourself. That's what I did.
 
 This script supposes :
 
-* you have SABnzdb+ installed in "~/bin/SABnzdb"
+* you have SABnzdb+ running with https support and installed in "~/bin/SABnzdb"
 * you store the previous SABnzdb+ versions in "~/archives/"
-* you run the server on https
 
 To upgrade to the latest version, just paste that on your server :
 
