@@ -13,6 +13,10 @@ This script supposes :
 * you store the previous SABnzdb+ versions in "~/archives/"
 * you run the server on https
 
-To upgrade to the latest version, just run :
+To upgrade to the latest version, just paste that on your server :
+
+`curl -fsSL https://raw.github.com/czj/sabnzbd-upgrade/master/sabznbd_upgrade.sh | sh`
+
+Or download the shell script and run it :
 
 `./sabnzbd_upgrade.sh`
