@@ -1,9 +1,8 @@
 # SABnzbd+ automatic upgrade script
 
 SABnzbd+ is an awesome open-source project, but it lacks an automatic update mechanism.
-
-One could do use Sparkle on OSX to have it auto-update, but if you run it from the source, you 
-have to cook a script by yourself.
+On Windows or OSX it could be an auto-update executable, but if you run it from the source,
+you  have to cook a script by yourself. That's what I did.
 
 ## Usage
 
