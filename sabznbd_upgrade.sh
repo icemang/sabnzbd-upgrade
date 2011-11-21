@@ -5,7 +5,6 @@ cd ~/bin
 API_KEY=`cat SABnzbd/sabnzbd.ini | grep ^api_key    | awk '{print $3}'`
 PORT=`   cat SABnzbd/sabnzbd.ini | grep ^https_port | awk '{print $3}'`
 VERSION=`curl -s http://sabnzbdplus.sourceforge.net/version/latest | head -n1`
-VERSION=${VERSION%?}
 DIR="SABnzbd-${VERSION}"
 GZ="${DIR}-src.tar.gz"
 DATE=`date +'%Y%m%d-%H%M'`
