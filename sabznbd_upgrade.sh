@@ -21,6 +21,7 @@ curl -s "http://localhost:${PORT}/sabnzbd/api?mode=shutdown&apikey=${APIKEY}" >>
 
 echo "Installing new SABnzbd+"
 cp SABnzbd/sabnzbd.ini ${DIR}/sabnzbd.ini
+mkdir -p ~/archives/
 mv SABnzbd ~/archives/SABnzbd_${DATE}
 mv ${DIR} SABnzbd
 
