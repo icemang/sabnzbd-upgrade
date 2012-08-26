@@ -2,7 +2,7 @@
 
 cd ~/bin
 
-APIKEY=`cat SABnzbd/sabnzbd.ini | grep ^apikey     | awk '{print $3}'`
+API_KEY=`cat SABnzbd/sabnzbd.ini | grep ^api_key    | awk '{print $3}'`
 PORT=`  cat SABnzbd/sabnzbd.ini | grep ^https_port | awk '{print $3}'`
 VERSION=`curl -s http://sabnzbdplus.sourceforge.net/version/latest | head -n1`
 DIR="SABnzbd-${VERSION}"
@@ -20,7 +20,7 @@ tar -xzf ${GZ}
 rm ${GZ}
 
 echo "Shutting down SABnzbd+"
-curl -s "http://localhost:${PORT}/sabnzbd/api?mode=shutdown&apikey=${APIKEY}" >> /dev/null
+curl -s "http://localhost:${PORT}/sabnzbd/api?mode=shutdown&apikey=${API_KEY}" >> /dev/null
 
 echo "Installing new SABnzbd+"
 cp SABnzbd/sabnzbd.ini ${DIR}/sabnzbd.ini
