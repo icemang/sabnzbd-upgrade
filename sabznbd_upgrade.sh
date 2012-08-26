@@ -2,7 +2,7 @@
 
 cd ~/bin
 
-API_KEY=`cat SABnzbd/sabnzbd.ini | grep ^api_key    | awk '{print $3}'`
+API_KEY=`cat SABnzbd/sabnzbd.ini | grep ^apikey     | awk '{print $3}'`
 PORT=`   cat SABnzbd/sabnzbd.ini | grep ^https_port | awk '{print $3}'`
 VERSION=`curl -s http://sabnzbdplus.sourceforge.net/version/latest | head -n1`
 DIR="SABnzbd-${VERSION}"
