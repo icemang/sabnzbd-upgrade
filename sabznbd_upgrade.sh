@@ -10,7 +10,10 @@ GZ="${DIR}-src.tar.gz"
 DATE=`date +'%Y%m%d-%H%M'`
 
 echo "Downloading SABnzbd ${VERSION} (${GZ})"
-curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/sabnzbd-${VERSION}/${GZ}"
+curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}"
+
+# Alternative source: SWITCH (ch)
+# curl -s -C - -O "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/0.7.3/SABnzbd-0.7.3-src.tar.gz"
 
 echo "Unpacking ${GZ}"
 tar -xzf ${GZ}
