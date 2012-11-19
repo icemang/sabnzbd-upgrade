@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#testback
 cd ~/bin
 
 API_KEY=`cat SABnzbd/sabnzbd.ini | grep ^api_key    | awk '{print $3}'`
