@@ -3,26 +3,27 @@
 #
 # -- USER ADJUSTABLE VARIABLES --
 #
-
-#HOST - Should be set to "localhost" most likely, or a local IP if you prefer.
-#SABDIR - This is the SABnzbd directory name. I recommend leaving the default of "SABnzbd".
-#SABDESTDIR - This is the parent directory where your SABnzbd will be located.
-#SABCONFIGDIR - This is where your SABnzbd config files are located.
-# Please note that for this script - your config folder must be separate from your main sab folder.
-
+#
+# *** Please note that for this script - your config folder must be separate from your main sab folder. ***
+#
+# HOST - Should be set to "localhost" most likely, or a local IP if you prefer.
+# SABDESTDIR - This is the parent directory where your SABnzbd will be located.
+# SABCONFIGDIR - This is where your SABnzbd config files are located.
 HOST="10.0.0.1"
-SABDIR="SABnzbd"
 SABDESTDIR="/datapool/systemfiles"
 SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 
-#Custom URL (Could try "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus" as alternate)
-SABURL="http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus"
-
-#For archiving old versions - enter 0 for no or 1 for yes (if yes, choose a directory)
+# For archiving old versions - enter 0 for no or 1 for yes (if yes, choose a directory)
 ARCHIVE="1"
 ARCHIVEDIR="$HOME/sab_archive"
 
-#If you are on the current version but want to force an update, change the below variable to 1
+# Custom URL (Could try "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus" as alternate)
+SABURL="http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus"
+
+# SABDIR - This is the SABnzbd directory name. I highly recommend leaving the default of "SABnzbd".
+SABDIR="SABnzbd"
+
+# If you are on the current version but want to force an update, change the below variable to 1
 # Note that changing the below variable to 1 WILL force a reinstall everytime the script runs.
 START_UPDATE="0"
 
