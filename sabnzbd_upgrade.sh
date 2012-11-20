@@ -35,13 +35,13 @@ if [ "${START_UPDATE}" = "0" ]; then
         echo "You are on the current version of: ${LOCAL_VERSION}"
         echo "No update will be performed"
 else
+	cd ${SABDESTDIR}
+        echo "New version found! You are on ${LOCAL_VERSION}, upgrading to ${VERSION} now."
+
 	API_KEY=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^api_key | awk '{print $3}'`
 	PORT=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^port | awk '{print $3}' | head -1`
 	DIR="SABnzbd-${VERSION}"
 	GZ="${DIR}-src.tar.gz"
-
-        cd ${SABDESTDIR}
-        echo "New version found! You are on ${LOCAL_VERSION}, upgrading to ${VERSION} now."
 
 	echo "Downloading SABnzbd ${VERSION} (${GZ})"
 	curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}"
