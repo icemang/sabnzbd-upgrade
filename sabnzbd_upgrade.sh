@@ -12,8 +12,8 @@ SABDESTDIR="/datapool/systemfiles"
 SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 
 #For Archive - enter 0 for no or 1 for yes (if yes, specify a direct path)
-ARCHIVE="0"
-ARCHIVEPATH=""
+ARCHIVE="1"
+ARCHIVEPATH="$HOME/sab_archive"
 
 #If you are on the current version but want to force an update, change the below variable to 1
 # Note that changing the below variable to 1 WILL force a reinstall everytime the script runs.
@@ -21,6 +21,7 @@ START_UPDATE="0"
 
 #
 # -- DONE WITH USER INPUT --
+#
 ############################################################################################################
 
 LOCAL_VERSION=`cat ${SABDESTDIR}/${SABDIR}/PKG-INFO | grep ^Version | awk '{print $2}'`
@@ -59,9 +60,8 @@ else
 	if [ "${ARCHIVE}" = "0" ]; then
 		rm -rf ${SABDIR}
 	else
-#		DATE=`date +'%Y%m%d-%H%M'`
-#		mkdir -p ${ARCHIVEPATH}
-#		mv ${SABDIR} ${ARCHIVEPATH}_${DATE}
+		mkdir -p ${ARCHIVEPATH}
+		mv ${SABDIR} ${ARCHIVEPATH}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
 	fi
 	mv ${DIR} ${SABDIR}
 
