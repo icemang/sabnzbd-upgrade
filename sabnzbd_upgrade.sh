@@ -24,7 +24,7 @@ ARCHIVEDIR="$HOME/sab_archive"
 
 #If you are on the current version but want to force an update, change the below variable to 1
 # Note that changing the below variable to 1 WILL force a reinstall everytime the script runs.
-START_UPDATE="1"
+START_UPDATE="0"
 
 #
 # -- DONE WITH USER INPUT --
