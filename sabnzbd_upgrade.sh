@@ -6,6 +6,7 @@
 #  SABDIR needs your local SABnzbd directory location
 #  SABCONFIGDIR needs your local SABnzbd CONFIG directory location (Sometimes this is the same as SABDIR)
 
+HOST="localhost"
 SABDIR=/datapool/systemfiles/SABnzbd
 SABCONFIGDIR=/datapool/systemfiles/SABnzbd.Config
 TEMPDIR="~/sabupgradetemp907821034"
@@ -15,7 +16,6 @@ TEMPDIR="~/sabupgradetemp907821034"
 ############################################################################################################
 
 API_KEY=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^api_key | awk '{print $3}'`
-HOST=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^host | awk '{print $3}'`
 PORT=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^https_port | awk '{print $3}'`
 VERSION=`curl -s http://sabnzbdplus.sourceforge.net/version/latest | head -n1`
 
@@ -29,13 +29,10 @@ DATE=`date +'%Y%m%d-%H%M'`
 mkdir ${TEMPDIR} && cd ${TEMPDIR}
 
 echo "Downloading SABnzbd ${VERSION} (${GZ})"
-curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}"
+curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}" | tar -xzf -
 
 # Alternative source: SWITCH (ch)
-# curl -s -C - -O "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/0.7.3/SABnzbd-0.7.3-src.tar.gz"
-
-echo "Unpacking ${GZ}"
-tar -xzf ${GZ}
+# curl -s -C - -O "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/0.7.3/SABnzbd-0.7.3-src.tar.gz" | tar -xzf -
 
 echo "Shutting down SABnzbd+"
 curl -s "http://${HOST}:${PORT}/sabnzbd/api?mode=shutdown&apikey=${API_KEY}" >> /dev/null
@@ -46,9 +43,8 @@ mv ${SABDIR} ~/archives/SABnzbd_${DATE}
 mv ${DIR} ${SABDIR}
 
 echo "Restarting SABnzdb+"
-python ${SABDIR}SABnzbd.py -d -f ${SABCONFIGDIR}/sabnzbd.ini > /dev/null
+python ${SABDIR}/SABnzbd.py -d -f ${SABCONFIGDIR}/sabnzbd.ini > /dev/null
 
 # Go back to the previous directory 
 cd -
-rm -rf ${TEMPDIR}
 echo "Upgrade complete !"
