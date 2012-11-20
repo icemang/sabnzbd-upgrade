@@ -7,9 +7,14 @@
 #  SABCONFIGDIR needs your local SABnzbd CONFIG directory location (Sometimes this is the same as SABDIR)
 
 HOST="localhost"
-SABDIR=/datapool/systemfiles/SABnzbd
-SABCONFIGDIR=/datapool/systemfiles/SABnzbd.Config
+SABDIR="SABnzbd"
+SABDESTDIR="/datapool/systemfiles"
+SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 TEMPDIR="~/sabupgradetemp907821034"
+
+#For Archive - enter yes or no (if yes, specify a direct path)
+ARCHIVE="no"
+ARCHIVEPATH=""
 
 #
 # -- DONE WITH USER INPUT --
@@ -26,7 +31,7 @@ DIR="SABnzbd-${VERSION}"
 GZ="${DIR}-src.tar.gz"
 DATE=`date +'%Y%m%d-%H%M'`
 
-mkdir ${TEMPDIR} && cd ${TEMPDIR}
+cd ${SABDESTDIR}
 
 echo "Downloading SABnzbd ${VERSION} (${GZ})"
 curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}" | tar -xzf -
