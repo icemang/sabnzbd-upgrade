@@ -12,11 +12,7 @@ This script supposes :
 * you have SABnzdb+ running with its own config directory that you choose - this helps retain history, etc.
 * you store the previous SABnzdb+ versions in "~/archives/"
 
-To upgrade to the latest version, just paste that on your server :
-
-`curl -fsSL https://raw.github.com/icemang/sabnzbd-upgrade/master/sabnzbd_upgrade.sh | sh`
-
-Or download the shell script and run it :
+To upgrade to the latest version download the shell script, adjust variables at the top and run it :
 
 `./sabnzbd_upgrade.sh`
 

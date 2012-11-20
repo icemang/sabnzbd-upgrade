@@ -1,13 +1,32 @@
 #!/bin/bash
-#testback
-cd ~/bin
+############################################################################################################
+#
+# -- USER ADJUSTABLE VARIABLES --
+#
+#  SABDIR needs your local SABnzbd directory location
+#  SABCONFIGDIR needs your local SABnzbd CONFIG directory location (Sometimes this is the same as SABDIR)
 
-API_KEY=`cat SABnzbd/sabnzbd.ini | grep ^api_key    | awk '{print $3}'`
-PORT=`  cat SABnzbd/sabnzbd.ini | grep ^https_port | awk '{print $3}'`
+SABDIR=/datapool/systemfiles/SABnzbd
+SABCONFIGDIR=/datapool/systemfiles/SABnzbd.Config
+TEMPDIR="~/sabupgradetemp907821034"
+
+#
+# -- DONE WITH USER INPUT --
+############################################################################################################
+
+API_KEY=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^api_key | awk '{print $3}'`
+HOST=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^host | awk '{print $3}'`
+PORT=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^https_port | awk '{print $3}'`
 VERSION=`curl -s http://sabnzbdplus.sourceforge.net/version/latest | head -n1`
+
+#added this to work on checking local version
+LOCAL_VERSION=`cat ${SABDIR}/PKG-INFO | grep ^version | awk '{print $3}'`
+
 DIR="SABnzbd-${VERSION}"
 GZ="${DIR}-src.tar.gz"
 DATE=`date +'%Y%m%d-%H%M'`
+
+mkdir ${TEMPDIR} && cd ${TEMPDIR}
 
 echo "Downloading SABnzbd ${VERSION} (${GZ})"
 curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}"
@@ -17,21 +36,19 @@ curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplu
 
 echo "Unpacking ${GZ}"
 tar -xzf ${GZ}
-rm ${GZ}
 
 echo "Shutting down SABnzbd+"
-curl -s "http://localhost:${PORT}/sabnzbd/api?mode=shutdown&apikey=${API_KEY}" >> /dev/null
+curl -s "http://${HOST}:${PORT}/sabnzbd/api?mode=shutdown&apikey=${API_KEY}" >> /dev/null
 
 echo "Installing new SABnzbd+"
-cp SABnzbd/sabnzbd.ini ${DIR}/sabnzbd.ini
 mkdir -p ~/archives/
-mv SABnzbd ~/archives/SABnzbd_${DATE}
-mv ${DIR} SABnzbd
+mv ${SABDIR} ~/archives/SABnzbd_${DATE}
+mv ${DIR} ${SABDIR}
 
 echo "Restarting SABnzdb+"
-python SABnzbd/SABnzbd.py -d
+python ${SABDIR}SABnzbd.py -d -f ${SABCONFIGDIR}/sabnzbd.ini > /dev/null
 
 # Go back to the previous directory 
-echo "Upgrade complete !"
-
 cd -
+rm -rf ${TEMPDIR}
+echo "Upgrade complete !"
