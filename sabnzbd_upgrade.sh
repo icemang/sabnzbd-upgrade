@@ -3,17 +3,21 @@
 #
 # -- USER ADJUSTABLE VARIABLES --
 #
-#  SABDIR needs your local SABnzbd directory location
-#  SABCONFIGDIR needs your local SABnzbd CONFIG directory location (Sometimes this is the same as SABDIR)
+
+#HOST - Should be set to "localhost" most likely, or a local IP if you prefer.
+#SABDIR - This is the SABnzbd directory name. I recommend leaving the default of "SABnzbd".
+#SABDESTDIR - This is the parent directory where your SABnzbd will be located.
+#SABCONFIGDIR - This is where your SABnzbd config files are located.
+# Please note that for this script - your config folder must be separate from your main sab folder.
 
 HOST="10.0.0.1"
 SABDIR="SABnzbd"
 SABDESTDIR="/datapool/systemfiles"
 SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 
-#For Archive - enter 0 for no or 1 for yes (if yes, specify a direct path)
+#For archiving old versions - enter 0 for no or 1 for yes (if yes, choose a directory)
 ARCHIVE="1"
-ARCHIVEPATH="$HOME/sab_archive"
+ARCHIVEDIR="$HOME/sab_archive"
 
 #If you are on the current version but want to force an update, change the below variable to 1
 # Note that changing the below variable to 1 WILL force a reinstall everytime the script runs.
@@ -36,7 +40,7 @@ if [ "${START_UPDATE}" = "0" ]; then
         echo "No update will be performed"
 else
 	cd ${SABDESTDIR}
-        echo "New version found! You are on ${LOCAL_VERSION}, upgrading to ${VERSION} now."
+	echo "New version found! You are on ${LOCAL_VERSION}, upgrading to ${VERSION} now."
 
 	API_KEY=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^api_key | awk '{print $3}'`
 	PORT=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^port | awk '{print $3}' | head -1`
@@ -60,8 +64,8 @@ else
 	if [ "${ARCHIVE}" = "0" ]; then
 		rm -rf ${SABDIR}
 	else
-		mkdir -p ${ARCHIVEPATH}
-		mv ${SABDIR} ${ARCHIVEPATH}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
+		mkdir -p ${ARCHIVEDIR}
+		mv ${SABDIR} ${ARCHIVEDIR}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
 	fi
 	mv ${DIR} ${SABDIR}
 
