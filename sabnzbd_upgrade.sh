@@ -15,13 +15,16 @@ SABDIR="SABnzbd"
 SABDESTDIR="/datapool/systemfiles"
 SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 
+#Custom URL (Could try "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus" as alternate)
+SABURL="http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus"
+
 #For archiving old versions - enter 0 for no or 1 for yes (if yes, choose a directory)
 ARCHIVE="1"
 ARCHIVEDIR="$HOME/sab_archive"
 
 #If you are on the current version but want to force an update, change the below variable to 1
 # Note that changing the below variable to 1 WILL force a reinstall everytime the script runs.
-START_UPDATE="0"
+START_UPDATE="1"
 
 #
 # -- DONE WITH USER INPUT --
@@ -48,25 +51,22 @@ else
 	GZ="${DIR}-src.tar.gz"
 
 	echo "Downloading SABnzbd ${VERSION} (${GZ})"
-	curl -s -C - -O "http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}"
-
-	# Alternative source: SWITCH (ch)
-	# curl -s -C - -O "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus/${VERSION}/${GZ}"
+	curl -s -C - -O "${SABURL}/${VERSION}/${GZ}"
 
 	echo "Unpacking ${GZ}"
-	tar -xzf ${GZ}
-	rm ${GZ}
+	tar -xzf ${GZ} && rm ${GZ}
 
 	echo "Shutting down SABnzbd+"
 	curl -s "http://${HOST}:${PORT}/sabnzbd/api?mode=shutdown&apikey=${API_KEY}" >> /dev/null
 
-	echo "Installing new SABnzbd+"
 	if [ "${ARCHIVE}" = "0" ]; then
 		rm -rf ${SABDIR}
 	else
+		echo "Archiving old SABnzbd+"
 		mkdir -p ${ARCHIVEDIR}
 		mv ${SABDIR} ${ARCHIVEDIR}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
 	fi
+	echo "Installing new SABnzbd+"
 	mv ${DIR} ${SABDIR}
 
 	echo "Restarting SABnzdb+"
