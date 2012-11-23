@@ -3,9 +3,6 @@
 #
 # -- USER ADJUSTABLE VARIABLES --
 #
-#
-# *** Please note that for this script - your config folder must be separate from your main sab folder. ***
-#
 # HOST - Should be set to "localhost" most likely, or a local IP if you prefer.
 # SABDESTDIR - This is the parent directory where your SABnzbd will be located.
 # SABCONFIGDIR - This is where your SABnzbd config files are located.
@@ -51,7 +48,9 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 		PORT=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^port | awk '{print $3}' | head -1`
 		DIR="SABnzbd-${VERSION}"
 		GZ="${DIR}-src.tar.gz"
-
+		if [ -f ${DIR}-src.tar.gz ]; then
+			rm "${DIR}-src.tar.gz"
+		fi
 		echo "Downloading SABnzbd ${VERSION} (${GZ})"
 		curl -s -C - -O "${SABURL}/${VERSION}/${GZ}"
 
@@ -62,9 +61,25 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 		curl -s "http://${HOST}:${PORT}/sabnzbd/api?mode=shutdown&apikey=${API_KEY}" >> /dev/null
 
 		if [ "${ARCHIVE}" = "0" ]; then
+			if [ "${SABDESTDIR}/${SABDIR}" = "${SABCONFIGDIR}" ]; then
+				echo "Moving your config files into your new installation."
+				mv ${SABCONFIGDIR}/sabnzbd.ini* ${DIR}
+				mv ${SABCONFIGDIR}/admin ${DIR}
+				mv ${SABCONFIGDIR}/backup ${DIR}
+				mv ${SABCONFIGDIR}/logs ${DIR}
+				mv ${SABCONFIGDIR}/temp ${DIR}
+			fi
 			rm -rf ${SABDIR}
 		else
 			echo "Archiving old SABnzbd+"
+			if [ "${SABDESTDIR}/${SABDIR}" = "${SABCONFIGDIR}" ]; then
+				echo "This may take a few moments... (creating a copy of your config files for your archive)"
+				cp -r ${SABCONFIGDIR}/sabnzbd.ini* ${DIR}
+				cp -r ${SABCONFIGDIR}/admin ${DIR}
+				cp -r ${SABCONFIGDIR}/backup ${DIR}
+				cp -r ${SABCONFIGDIR}/logs ${DIR}
+				cp -r ${SABCONFIGDIR}/temp ${DIR}
+			fi
 			mkdir -p ${ARCHIVEDIR}
 			mv ${SABDIR} ${ARCHIVEDIR}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
 		fi
@@ -79,5 +94,8 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 		echo "Upgrade complete !"
 	fi
 else
-	echo "There is an error with the variables chosen.  Please edit the script and try again."
+	echo "There is an error with the variables chosen."
+	echo "Currently - I am looking here for your SAB installation: \"${SABDESTDIR}/${SABDIR}\""
+	echo "I am also looking here for your SAB configuration files: \"${SABCONFIGDIR}\""
+	echo "Please edit the variables at the top of the script and try again."
 fi

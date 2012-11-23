@@ -11,6 +11,7 @@ This script supposes :
 * you are comfortable adjusting some variables at the top of the script once downloaded.
 * you have SABnzdb+ running and installed in a directory that you know and will add to the script.
 * you have SABnzdb+ running with its own config directory that you know and will add to the script. (This helps retain history, etc.)
+* (Note that for the Config directory - I have added support in case you have it in the same folder as your main sab install.)
 * you would like the option to archive old versions and choose a directory for archives that you can add to the script.
 
 To upgrade to the latest version download the shell script, adjust the variables at the top and run it:
