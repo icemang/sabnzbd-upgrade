@@ -14,7 +14,8 @@ SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 ARCHIVE="1"
 ARCHIVEDIR="$HOME/sab_archive"
 
-# Custom URL (Could try "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus" as alternate)
+# Custom URL - Only change if update is not working correctly.
+#  (Could try "http://switch.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus" as alternate)
 SABURL="http://freefr.dl.sourceforge.net/project/sabnzbdplus/sabnzbdplus"
 
 # SABDIR - This is the SABnzbd directory name. I highly recommend leaving the default of "SABnzbd".
