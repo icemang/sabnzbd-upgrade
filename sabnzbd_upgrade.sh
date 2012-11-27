@@ -52,10 +52,8 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 		if [ -f ${DIR}-src.tar.gz ]; then
 			rm "${DIR}-src.tar.gz"
 		fi
-		echo "Downloading SABnzbd ${VERSION} (${GZ})"
+		echo "Downloading and unpacking SABnzbd ${VERSION} (${GZ})"
 		curl -s -C - -O "${SABURL}/${VERSION}/${GZ}"
-
-		echo "Unpacking ${GZ}"
 		tar -xzf ${GZ} && rm ${GZ}
 
 		echo "Shutting down SABnzbd+"
@@ -84,10 +82,8 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 			mkdir -p ${ARCHIVEDIR}
 			mv ${SABDIR} ${ARCHIVEDIR}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
 		fi
-		echo "Installing new SABnzbd+"
+		echo "Installing and restarting new SABnzbd+"
 		mv ${DIR} ${SABDIR}
-
-		echo "Restarting SABnzdb+"
 		python ${SABDIR}/SABnzbd.py -d -f ${SABCONFIGDIR}/sabnzbd.ini >> /dev/null
 
 		# Go back to the previous directory
