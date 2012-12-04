@@ -47,6 +47,15 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 
 		API_KEY=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^api_key | awk '{print $3}'`
 		PORT=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^port | awk '{print $3}' | head -1`
+		if [ "${SABDESTDIR}/${SABDIR}" = "${SABCONFIGDIR}" ]; then
+			# Need Temp, Admin, Cache, Log and .nzb backup folder locations as specified in sabnzbd.ini
+			# Only applies if sab install and sab config folders are equal.
+			FOL_TEMP=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^download_dir | awk '{print $3}'`
+			FOL_ADMIN=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^admin_dir | awk '{print $3}'`
+			FOL_LOG=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^log_dir | awk '{print $3}'`
+			FOL_NZB=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^nzb_backup_dir | awk '{print $3}'`
+			FOL_CACHE=`cat ${SABCONFIGDIR}/sabnzbd.ini | grep ^cache_dir | awk '{print $3}'`
+		fi
 		DIR="SABnzbd-${VERSION}"
 		GZ="${DIR}-src.tar.gz"
 		if [ -f ${DIR}-src.tar.gz ]; then
@@ -63,10 +72,11 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 			if [ "${SABDESTDIR}/${SABDIR}" = "${SABCONFIGDIR}" ]; then
 				echo "Moving your config files into your new installation."
 				mv ${SABCONFIGDIR}/sabnzbd.ini* ${DIR}
-				mv ${SABCONFIGDIR}/admin ${DIR}
-				mv ${SABCONFIGDIR}/backup ${DIR}
-				mv ${SABCONFIGDIR}/logs ${DIR}
-				mv ${SABCONFIGDIR}/temp ${DIR}
+				mv ${FOL_TEMP} ${DIR}
+				mv ${FOL_ADMIN} ${DIR}
+				mv ${FOL_LOG} ${DIR}
+				mv ${FOL_NZB} ${DIR}
+				mv ${FOL_CACHE} ${DIR}
 			fi
 			rm -rf ${SABDIR}
 		else
@@ -74,10 +84,11 @@ if [ -f ${SABDESTDIR}/${SABDIR}/PKG-INFO ] && [ -f ${SABCONFIGDIR}/sabnzbd.ini ]
 			if [ "${SABDESTDIR}/${SABDIR}" = "${SABCONFIGDIR}" ]; then
 				echo "This may take a few moments... (creating a copy of your config files for your archive)"
 				cp -r ${SABCONFIGDIR}/sabnzbd.ini* ${DIR}
-				cp -r ${SABCONFIGDIR}/admin ${DIR}
-				cp -r ${SABCONFIGDIR}/backup ${DIR}
-				cp -r ${SABCONFIGDIR}/logs ${DIR}
-				cp -r ${SABCONFIGDIR}/temp ${DIR}
+                                cp -r ${FOL_TEMP} ${DIR}
+                                cp -r ${FOL_ADMIN} ${DIR}
+                                cp -r ${FOL_LOG} ${DIR}
+                                cp -r ${FOL_NZB} ${DIR}
+                                cp -r ${FOL_CACHE} ${DIR}
 			fi
 			mkdir -p ${ARCHIVEDIR}
 			mv ${SABDIR} ${ARCHIVEDIR}/${SABDIR}_${LOCAL_VERSION}_`date +'%Y%m%d-%H%M'`
