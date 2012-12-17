@@ -11,7 +11,7 @@ SABDESTDIR="/datapool/systemfiles"
 SABCONFIGDIR="/datapool/systemfiles/SABnzbd.Config"
 
 # For archiving old versions - enter 0 for no or 1 for yes (if yes, choose a directory)
-ARCHIVE="1"
+ARCHIVE="0"
 ARCHIVEDIR="$HOME/sab_archive"
 
 # Custom URL - Only change if update is not working correctly.
